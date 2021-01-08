@@ -13,12 +13,11 @@ export const getScores = async (req, res) => {
 };
 
 export const createScore = async (req, res) => {
-    const score = req.body;
-    const newScore = new  PostScore(score);
+    const { name, score, character } = req.body;
+    const newScore = new PostScore({ name, score, character });
 
     try {
         await newScore.save();
-
         res.status(201).json(newScore);
     } catch (error) {
         res.status(409).json({ message: error.message });

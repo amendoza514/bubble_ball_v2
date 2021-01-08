@@ -10,14 +10,14 @@ import postScores from './routes/scores.js'
 
 const app = express();
 
-app.use('/scores', postScores);
 
+app.use(cors());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+
+app.use('/scores', postScores);
 
 //mongoDB cluster added here
-
 const CONNECTION_URL = 'mongodb+srv://alexjmendoza514:alexjmendoza514@cluster0.u9pok.mongodb.net/<dbname>?retryWrites=true&w=majority';
 
 const PORT = process.env.PORT || 5000;
