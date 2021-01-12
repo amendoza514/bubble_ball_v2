@@ -1,4 +1,5 @@
-import unirest from 'unirest'
+import unirest from 'unirest';
+import Stat from '../models/Stat.js';
 
 
 export const getStats = async (req, res) => {
@@ -10,11 +11,32 @@ req.headers({
 	"useQueryString": true
 });
 
-  req.end(function (res) {
-	if (res.error) console.log('nope');
-    console.log(res.body);
-    console.log(res.body.api.statistics[0]);
-  });
+//   req.end(function (res) {
+//     if (res.error) console.log('nope');
+//     return res.json('ya')
+//     console.log(res.body);
+//     console.log(res.body.api.statistics[0]);
+//   });
+
+  try {
+        const newStat = await Stat.find();
+        console.log(newStat);
+
+        res.status(200).json(newStat);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
    
 };
 
+export const createStat = async (req, res) => {
+    const { name, scoreAvg, assistAvg, rebAvg } = req.body;
+    const newStat = new Stat({ name, scoreAvg, assistAvg, rebAvg });
+
+    try {
+        await newStat.save();
+        res.status(201).json(newStat);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+};
