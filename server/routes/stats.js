@@ -6,7 +6,8 @@ const router = express.Router();
 //localhost:5000/stats is origin point
 
 router.get('/', getStats);
-router.post('/', createStat);
+router.post('/:id', createStat);
+// router.post('/', createStat);
 router.patch('/:id', updateStat);
 router.delete('/:id', deleteStat);
 
