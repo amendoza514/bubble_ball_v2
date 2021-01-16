@@ -24,10 +24,25 @@ export const createStat = async (req, res) => {
 
     req.end(function (res) {
       if (res.error) console.log('nope');
-      let randInt =   Math.floor(Math.random() * Math.floor(300));
-      let data = res.body.api.statistics[randInt]
-      // console.log(data.points)
-      const newStat = new Stat({ name:"lebron",scoreAvg:data.points, assistAvg:data.assists, rebAvg:data.totReb });
+  
+      let pts = 0;
+      let ast = 0;
+      let rbs = 0;
+      for (let i = 0; i < 20; i++) {
+        let randInt = Math.floor(Math.random() * Math.floor(494));
+        let dataPoint = res.body.api.statistics[randInt];
+        pts += parseInt(dataPoint.points);
+        ast += parseInt(dataPoint.assists);
+        rbs += parseInt(dataPoint.totReb);
+      };
+
+      // console.log(pts, ast, rbs)
+      const newStat = new Stat({ 
+        name:"lebron", 
+        scoreAvg: Math.round(pts/20), 
+        assistAvg: Math.round(ast/20), 
+        rebAvg: Math.round(rbs/20)
+      });
       newStat.save();
     });
 };
